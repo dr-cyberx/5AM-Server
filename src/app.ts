@@ -1,11 +1,28 @@
-import express from 'express';
-const app = express();
-const port = 3000;
+import express, { Express, NextFunction, Request, Response } from 'express';
+import morgan from 'morgan';
+import authRouter from './routes/authRouter';
+import productRouter from './routes/productRouter';
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+const app: Express = express();
+const base_url: string = process.env.BASE_PATH;
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  req.requestedTime = new Date().toISOString();
+  next();
 });
 
-app.listen(port, () => {
-  return console.log(`5AM server is listening at http://localhost:${port}`);
+app.use(express.json());
+app.use(express.static(`${__dirname}/public`));
+
+app.use(`${base_url}/auth`, authRouter);
+app.use(`${base_url}/products`, productRouter);
+
+app.get(`${base_url}/ishealthy`, (req: Request, res: Response) => {
+  res.status(200).json({ message: 'I am Healthy', status: 200 });
 });
+
+export default app;
