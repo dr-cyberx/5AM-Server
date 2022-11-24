@@ -1,6 +1,8 @@
-import express, { Express, NextFunction, Request, Response } from 'express';
+import express, { Express, Request, Response } from 'express';
 import morgan from 'morgan';
 import path from 'path';
+import setTime from './middleware/time';
+// import userMiddleWare from './middleware/user-middleware';
 import authRouter from './routes/authRouter';
 import productRouter from './routes/productRouter';
 
@@ -11,15 +13,12 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-app.use((req: Request, res: Response, next: NextFunction) => {
-  req.requestedTime = new Date().toISOString();
-  next();
-});
-
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(setTime);
 
 app.use(`${BASE_URL}/auth`, authRouter);
+// app.use(userMiddleWare.isUserExist);
 app.use(`${BASE_URL}/products`, productRouter);
 
 app.get(`${BASE_URL}/ishealthy`, (req: Request, res: Response) => {

@@ -3,4 +3,8 @@ export enum commonResponseMessage {
   INVALID_CREDS = 'Invalid Credentials!',
   SUCCESS = 'Success!',
   FAILED = 'Failed!',
+  LOGIN_SUCCESS = 'Login Successfully',
+  SIGNUP_SUCCESS = 'Sign Up Successfully',
+  SIGNUP_FAILED = 'Sign Up Failed!',
+  LOGIN_FAILED = 'Login Failed!',
 }

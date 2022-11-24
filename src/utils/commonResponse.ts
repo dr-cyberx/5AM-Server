@@ -5,5 +5,5 @@ export const sendCommonResponse = (
   status: number,
   resObj: any
 ): void => {
-  res.status(status).json({ ...resObj });
+  res.status(status).json({ data: { token: '', error: true, ...resObj } });
 };
