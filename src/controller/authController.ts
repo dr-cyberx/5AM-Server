@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import authOperations from '../DAO/authDao';
 import commonDBOperation from '../db/commonOperations';
-import { commonResponseMessage } from '../utils/commonRespMessage';
 import { sendCommonResponse } from '../utils/commonResponse';
 
 const { createOne, findFromDB } = commonDBOperation;
@@ -12,10 +11,7 @@ const userOperations = {
     try {
       await Login(req, res, findFromDB, sendCommonResponse);
     } catch (err) {
-      sendCommonResponse(res, 500, {
-        message: commonResponseMessage.SOMETHING_WENT_WRONG,
-        user: {},
-      });
+      sendCommonResponse(res, 500);
     }
   },
   signupUser: async (
@@ -26,10 +22,7 @@ const userOperations = {
     try {
       await SignUp(req, res, createOne, sendCommonResponse);
     } catch (err) {
-      sendCommonResponse(res, 500, {
-        message: commonResponseMessage.SOMETHING_WENT_WRONG,
-        user: {},
-      });
+      sendCommonResponse(res, 500);
     }
   },
 };

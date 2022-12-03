@@ -5,4 +5,13 @@ const setTime = (req: Request, res: Response, next: NextFunction): void => {
   next();
 };
 
-export default setTime;
+const setTokenSecret = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  req.tokenSecret = `${process.env.JWT_SECRET}`;
+  next();
+};
+
+export { setTime, setTokenSecret };
