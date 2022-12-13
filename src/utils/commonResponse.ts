@@ -8,16 +8,13 @@ interface IresObj {
   data?: Object;
 }
 
-export const sendCommonResponse = (
-  res: Response,
-  status: number = 500,
-  resObj: IresObj = {}
-): void => {
+export const sendCommonResponse = (res: Response, status: number = 500, resObj: IresObj = {}): void => {
   res.status(status).json({
     data: {
-      token: '',
-      error: true,
       message: commonResponseMessage.SOMETHING_WENT_WRONG,
+      error: true,
+      data: {},
+      token: '',
       ...resObj,
     },
   });

@@ -1,4 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
+import userModal from '../model/user';
+import commonDBOperation from '../db/commonOperations';
+import { commonResponseMessage } from '../utils/commonRespMessage';
 // import commonDBOperation from '../db/commonOperations';
 // import userModal from '../model/user';
 
@@ -7,36 +10,25 @@ import { NextFunction, Request, Response } from 'express';
 const userMiddleWare = {
   isUserExist: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      //   const isUserExist = await findFromDB(userModal, { ...argObj }, false);
-      //   console.log(isUserExist);
+      const isUserExist = await commonDBOperation.findFromDB(userModal, { ...req.body });
+      console.log('arg res -> ', isUserExist);
+      req.isUserExist = isUserExist;
+      next();
     } catch (err) {
-      //   throw new Error('User already exist');
+      throw new Error(commonResponseMessage.SOMETHING_WENT_WRONG);
     }
   },
 
   customAuthValidator: (body: any) => {
-    const keys: string[] = Object.keys(body);
-    for (let index = 0; index < keys.length; index++) {
-      switch (keys[index]) {
-        case 'name':
-          break;
-
-        case 'countryCode':
-          break;
-
-        case 'phoneNumber':
-          break;
-
-        case 'email':
-          break;
-
-        case 'address':
-          break;
-
-        default:
-          break;
+    const credKeys: string[] = Object.keys(body);
+    const invalidKeys: string[] = [];
+    for (let index = 0; index < credKeys.length; index++) {
+      if (credKeys[index] === null || credKeys[index] === '' || credKeys[index] === undefined) {
+        invalidKeys.push(credKeys[index]);
       }
     }
+
+    console.log(invalidKeys);
   },
 };
 

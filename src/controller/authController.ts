@@ -4,21 +4,24 @@ import commonDBOperation from '../db/commonOperations';
 import { sendCommonResponse } from '../utils/commonResponse';
 
 const { createOne, findFromDB } = commonDBOperation;
-const { SignUp, Login } = authOperations;
+const { SignUp, sendOtp, verifyOtp } = authOperations;
 
 const userOperations = {
-  loginUser: async (req: Request, res: Response, next: NextFunction) => {
+  sendOtp: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await Login(req, res, findFromDB, sendCommonResponse);
+      await sendOtp(req, res, findFromDB, sendCommonResponse);
     } catch (err) {
       sendCommonResponse(res, 500);
     }
   },
-  signupUser: async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> => {
+  verifyOtp: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await verifyOtp(req, res, findFromDB, sendCommonResponse);
+    } catch (err) {
+      sendCommonResponse(res, 500);
+    }
+  },
+  signupUser: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       await SignUp(req, res, createOne, sendCommonResponse);
     } catch (err) {
