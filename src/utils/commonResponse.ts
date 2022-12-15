@@ -2,7 +2,7 @@ import { Response } from 'express';
 import { commonResponseMessage } from './commonRespMessage';
 
 interface IresObj {
-  message?: commonResponseMessage;
+  message?: commonResponseMessage | string;
   error?: boolean;
   token?: string;
   data?: Object;

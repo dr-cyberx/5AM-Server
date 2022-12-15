@@ -1,10 +1,7 @@
 import { Request, Response } from 'express';
 import { sign } from 'jsonwebtoken';
 import userModal from '../model/user';
-import { commonResponseMessage } from '../utils/commonRespMessage';
-import { sendCommonResponse } from '../utils/commonResponse';
-import { getRandomNumber, stringifyIt } from '../utils';
-import sendOtp from '../utils/twillio-methods';
+import { commonResponseMessage, getRandomNumber, sendCommonResponse, sendOtp, stringifyIt } from '../utils';
 import commonDBOperation from '../db/commonOperations';
 
 const authOperations = {

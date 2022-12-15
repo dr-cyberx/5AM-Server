@@ -3,7 +3,6 @@ import userModal from '../model/user';
 
 const commonDBOperation = {
   findFromDB: async (modalName: typeof Model, argObj: any): Promise<any> => {
-    console.log('arg obj -> ', { ...argObj });
     const user = await modalName.find({ ...argObj });
     return user;
   },
@@ -15,13 +14,10 @@ const commonDBOperation = {
   },
 
   updateOne: async (modelName: typeof Model, filterObj: any, argObj: any, allDocs: boolean): Promise<any> => {
-    console.log('reached --> ', modelName, filterObj, argObj);
     if (allDocs) {
-      console.log('reached --> ', modelName, filterObj, argObj);
       const res = await modelName.updateMany({ ...filterObj }, { ...argObj });
       return res;
     } else {
-      console.log('reached --> ', modelName, filterObj, argObj);
       const res = await modelName.updateOne({ ...filterObj }, { ...argObj });
       return res;
     }

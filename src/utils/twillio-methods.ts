@@ -6,7 +6,7 @@ const messagingServiceSid = process.env.TWILLIO_MSG_ID;
 
 const twillioMessageInstance = client(accountSid, authToken).messages;
 
-const sendOtp = async (phNumber: string, otp: number): Promise<any> => {
+export const sendOtp = async (phNumber: string, otp: number): Promise<any> => {
   try {
     const message = await twillioMessageInstance.create({
       body: `${otp}`,
@@ -18,5 +18,3 @@ const sendOtp = async (phNumber: string, otp: number): Promise<any> => {
     throw new Error(error);
   }
 };
-
-export default sendOtp;

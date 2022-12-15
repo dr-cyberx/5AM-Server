@@ -11,7 +11,6 @@ const userMiddleWare = {
   isUserExist: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const isUserExist = await commonDBOperation.findFromDB(userModal, { ...req.body });
-      console.log('arg res -> ', isUserExist);
       req.isUserExist = isUserExist;
       next();
     } catch (err) {
@@ -27,8 +26,6 @@ const userMiddleWare = {
         invalidKeys.push(credKeys[index]);
       }
     }
-
-    console.log(invalidKeys);
   },
 };
 
