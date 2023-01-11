@@ -23,7 +23,7 @@ const commonDBOperation = {
     }
   },
 
-  deleteOne: async (modelName: typeof userModal, argObj: Object, allDocs: boolean): Promise<any> => {
+  deleteRecord: async (modelName: typeof userModal, argObj: Object, allDocs: boolean): Promise<any> => {
     if (allDocs) {
       return await modelName.deleteMany({ ...argObj });
     } else {

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { sendOtp, verifyOtp, SignUp } from '../DAO';
 import commonDBOperation from '../db/commonOperations';
+// import userModal from '../model/user';
 import { catchAsync, sendCommonResponse } from '../utils';
 
 const { createOne, findFromDB } = commonDBOperation;

@@ -33,6 +33,7 @@ const authOperations = {
         const { phoneNumber, otp } = req.body;
         const findUser = await callback(userModal, { phoneNumber, otp });
         if (findUser[0].email) {
+          await commonDBOperation.updateOne(userModal, { id: req.isUserExist[0].id }, { isPhoneVerified: true }, false);
           const token: string = sign(stringifyIt(findUser[0]), req.tokenSecret);
           return sendResp(res, 200, {
             message: commonResponseMessage.LOGIN_SUCCESS,
@@ -42,7 +43,7 @@ const authOperations = {
           });
         }
         return sendResp(res, 400, {
-          message: commonResponseMessage.LOGIN_FAILED,
+          message: commonResponseMessage.SUCCESS,
         });
       }
       return sendResp(res, 400, {
@@ -74,6 +75,7 @@ const authOperations = {
         message: commonResponseMessage.SIGNUP_FAILED,
       });
     } catch (err) {
+      console.log(err);
       throw new Error(commonResponseMessage.SOMETHING_WENT_WRONG);
     }
   },

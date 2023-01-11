@@ -10,4 +10,6 @@ export enum commonResponseMessage {
   OTP_SENT = 'OTP sent!',
   USER_ALREADY_EXIST = 'User already exist!',
   USER_NOT_EXIST = 'User not exist!',
+  UNVERIFED_USER_DELETE_SUCCESS = 'Unverifed User deleted successfully!',
+  UNVERIFED_USER_DELETE_FAIL = 'Unverified User deleted Failed!',
 }
