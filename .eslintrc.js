@@ -18,6 +18,7 @@ module.exports = {
     '@typescript-eslint/strict-boolean-expressions': 'off',
     '@typescript-eslint/comma-dangle': 'off',
     '@typescript-eslint/member-delimiter-style': 'off',
+    '@typescript-eslint/space-before-function-paren': 'off',
     'new-cap': 'off',
     '@typescript-eslint/no-misused-promises': 'off',
   },

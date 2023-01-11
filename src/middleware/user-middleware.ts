@@ -17,6 +17,20 @@ const userMiddleWare = {
       throw new Error(commonResponseMessage.SOMETHING_WENT_WRONG);
     }
   },
+  deleteUnverifiedUser: (req: Request, res: Response, next: NextFunction): void => {
+    try {
+      commonDBOperation
+        .deleteRecord(userModal, { isPhoneVerified: false }, true)
+        .then(() => {
+          next();
+        })
+        .catch(() => {
+          throw new Error(commonResponseMessage.UNVERIFED_USER_DELETE_FAIL);
+        });
+    } catch (err) {
+      throw new Error(commonResponseMessage.SOMETHING_WENT_WRONG);
+    }
+  },
 
   customAuthValidator: (body: any) => {
     const credKeys: string[] = Object.keys(body);

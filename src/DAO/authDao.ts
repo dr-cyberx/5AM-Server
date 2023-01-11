@@ -1,11 +1,12 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { sign } from 'jsonwebtoken';
 import userModal from '../model/user';
 import { commonResponseMessage, getRandomNumber, sendCommonResponse, sendOtp, stringifyIt } from '../utils';
 import commonDBOperation from '../db/commonOperations';
+import AppError from '../utils/appError';
 
 const authOperations = {
-  sendOtp: async (req: Request, res: Response, callback: Function, sendResp: typeof sendCommonResponse): Promise<void> => {
+  sendOtp: async (req: Request, res: Response, next: NextFunction, callback: Function, sendResp: typeof sendCommonResponse): Promise<void> => {
     try {
       if (req.isUserExist.length > 0) {
         const otp = getRandomNumber(9999);
@@ -27,12 +28,13 @@ const authOperations = {
     }
   },
 
-  verifyOtp: async (req: Request, res: Response, callback: Function, sendResp: typeof sendCommonResponse): Promise<void> => {
+  verifyOtp: async (req: Request, res: Response, next: NextFunction, callback: Function, sendResp: typeof sendCommonResponse): Promise<void> => {
     try {
       if (req.isUserExist.length > 0) {
         const { phoneNumber, otp } = req.body;
         const findUser = await callback(userModal, { phoneNumber, otp });
         if (findUser[0].email) {
+          await commonDBOperation.updateOne(userModal, { id: req.isUserExist[0].id }, { isPhoneVerified: true }, false);
           const token: string = sign(stringifyIt(findUser[0]), req.tokenSecret);
           return sendResp(res, 200, {
             message: commonResponseMessage.LOGIN_SUCCESS,
@@ -42,7 +44,7 @@ const authOperations = {
           });
         }
         return sendResp(res, 400, {
-          message: commonResponseMessage.LOGIN_FAILED,
+          message: commonResponseMessage.SUCCESS,
         });
       }
       return sendResp(res, 400, {
@@ -53,12 +55,10 @@ const authOperations = {
     }
   },
 
-  SignUp: async (req: Request, res: Response, callback: Function, sendResp: typeof sendCommonResponse): Promise<void> => {
+  SignUp: async (req: Request, res: Response, next: NextFunction, callback: Function, sendResp: typeof sendCommonResponse): Promise<void> => {
     try {
       if (req.isUserExist.length > 0) {
-        return sendResp(res, 400, {
-          message: commonResponseMessage.USER_ALREADY_EXIST,
-        });
+        return next(new AppError(commonResponseMessage.USER_ALREADY_EXIST, 400));
       }
       const newUser = await callback(userModal, { ...req.body });
       if (newUser.email) {
@@ -70,11 +70,10 @@ const authOperations = {
           data: newUser,
         });
       }
-      return sendResp(res, 400, {
-        message: commonResponseMessage.SIGNUP_FAILED,
-      });
+      return next(new AppError(commonResponseMessage.SIGNUP_FAILED, 400));
     } catch (err) {
-      throw new Error(commonResponseMessage.SOMETHING_WENT_WRONG);
+      console.log(err);
+      return next(new AppError(commonResponseMessage.SOMETHING_WENT_WRONG, 500));
     }
   },
 };

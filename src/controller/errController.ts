@@ -2,8 +2,18 @@ import { ErrorRequestHandler } from 'express';
 import { sendCommonResponse } from '../utils/commonResponse';
 
 export const globalErrorController: ErrorRequestHandler = (err, req, res, next): void => {
-  console.log(err);
-  return sendCommonResponse(res, 500, {
-    message: 'Something went wrong!',
-  });
+  const statusCode: number = err.statusCode || 500;
+  const message: string = err.message || 'Something went wrong!';
+
+  if (process.env.NODE_ENV === 'development') {
+    return sendCommonResponse(res, statusCode, {
+      message,
+      stack: err.stack,
+      err,
+    });
+  } else if (process.env.NODE_ENV === 'production') {
+    return sendCommonResponse(res, statusCode, {
+      message,
+    });
+  }
 };

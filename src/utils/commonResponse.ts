@@ -6,6 +6,8 @@ interface IresObj {
   error?: boolean;
   token?: string;
   data?: Object;
+  stack?: any;
+  err?: any;
 }
 
 export const sendCommonResponse = (res: Response, status: number = 500, resObj: IresObj = {}): void => {
