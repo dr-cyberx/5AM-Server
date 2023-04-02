@@ -33,7 +33,7 @@ app.get(`${BASE_URL}/ishealthy`, healthCheckRouter);
 // ----------------Routes-----------------------
 
 app.use(`${BASE_URL}/auth`, authRouter);
-app.use(`${BASE_URL}/products`, productRouter);
+app.use(`${BASE_URL}/food`, productRouter);
 
 app.all('*', unKnownPathController);
 

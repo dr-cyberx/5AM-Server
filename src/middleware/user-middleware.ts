@@ -10,13 +10,21 @@ import { commonResponseMessage } from '../utils/commonRespMessage';
 const userMiddleWare = {
   isUserExist: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const isUserExist = await commonDBOperation.findFromDB(userModal, { ...req.body });
+      const phoneNumberAndEmail: { email?: string; phoneNumber?: string } = {};
+      if (req.body?.email) {
+        phoneNumberAndEmail.email = req.body.email;
+      }
+      if (req.body?.phoneNumber) {
+        phoneNumberAndEmail.phoneNumber = req.body.phoneNumber;
+      }
+      const isUserExist = await commonDBOperation.findFromDB(userModal, { ...phoneNumberAndEmail });
       req.isUserExist = isUserExist;
       next();
     } catch (err) {
       throw new Error(commonResponseMessage.SOMETHING_WENT_WRONG);
     }
   },
+
   deleteUnverifiedUser: (req: Request, res: Response, next: NextFunction): void => {
     try {
       commonDBOperation

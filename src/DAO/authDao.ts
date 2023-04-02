@@ -72,7 +72,6 @@ const authOperations = {
       }
       return next(new AppError(commonResponseMessage.SIGNUP_FAILED, 400));
     } catch (err) {
-      console.log(err);
       return next(new AppError(commonResponseMessage.SOMETHING_WENT_WRONG, 500));
     }
   },

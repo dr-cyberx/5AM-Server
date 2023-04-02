@@ -1,5 +1,12 @@
-import express, { Router } from 'express';
+import express, { Router, Request, Response } from 'express';
+// import { isUserExist } from '../middleware';
 
-const productRouter: Router = express.Router();
+const foodRouter: Router = express.Router();
 
-export default productRouter;
+foodRouter.route('/get_food/:foodId').get((req: Request, res: Response) => {
+  res.json({
+    message: `Lawda lo na mera ${req.params.foodId} haah !`,
+  });
+});
+
+export default foodRouter;

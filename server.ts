@@ -11,7 +11,7 @@ const dbUri = process.env.DB_CONNECTION_STRING;
 connectDB(dbUri)
   .then(() => {
     app.listen(port, () => {
-      console.log('The server is up at http://localhost:4000');
+      console.log('The server is up at http://localhost:', port);
     });
   })
   .catch(() => {
