@@ -6,3 +6,5 @@ public
 *.json
 *.config.js
 *.scss
+
+babel.config.js
